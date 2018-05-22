@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1> Articles </h1>
+  <form action="/articles2" method="post">
+  Search for Articles:<br>
+  <input type="text" name="search" value="">
+  <input type="submit" value="Submit">
+  <br><br>
+  </form>
+
+  <ul class="list-group">
+    {% for article in articles['response']['docs'] %}
+      {% for index in article['articles.url'] %}
+      <li class="list-group-item"><a href="{{article['articles.url'][loop.index]}}">{{article['articles.title'][loop.index]}}</a>
+        <br>
+        <a>{{article['articles.description'][loop.index]}}</a>
+        <br>
+        <a href="{{article['articles.url'][loop.index]}}">
+          <img src="{{article['articles.urlToImage'][loop.index]}}" width="50%" alt=""></img>
+        </a>
+
+      </li>
+      {% endfor %}
+      {% endfor %}
+  </ul>
+
+  <script>
+    $("#search").submit(function() {
+          console.log(this.id);
+          $.post('localhost:5000/articles2');
+      });
+  </script>
+{% endblock %}
